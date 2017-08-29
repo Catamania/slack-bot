@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import HeroRouter from './routes/HeroRouter';
 import BotsRouter from './routes/BotsRouter';
 
 // Creates and configures an ExpressJS web server.
@@ -39,7 +38,6 @@ class App {
     // });
     // this.express.use('/', router);
     this.express.use(express.static(path.join(__dirname, 'public')));
-    this.express.use('/api/v1/heroes', HeroRouter);
     this.express.use('/api/v1/bots', BotsRouter);
   }
 
