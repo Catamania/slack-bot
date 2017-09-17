@@ -14,7 +14,8 @@
     "@types/debug": "0.0.29",
     "@types/express": "^4.0.33",
     "@types/morgan": "^1.7.32",
-    "@types/node": "^6.0.46",
+    "@types/node": "^8.0.25",
+    "@types/cron": "^1.2.1",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.1.1",
     "typescript": "^2.4.2"
@@ -23,6 +24,9 @@
     "body-parser": "^1.15.2",
     "debug": "^2.2.0",
     "express": "^4.14.0",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "cron": "^1.2.1",
+    "slackbots": "*",
+    "request": ">=2.27.0"
   }
 }
