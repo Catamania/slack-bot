@@ -56,7 +56,7 @@ export class Bot {
       krakenRequest
         .get(this.intervalle)
         .then((jsonBody) => {
-          let message = "*[TEST MACD 1min]* ";
+          let message = "*[MACD " + this.intervalle + " minutes]* ";
           if (botState.firstCall) {
             botState.firstCall = false;
             message =

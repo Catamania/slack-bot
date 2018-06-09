@@ -8,6 +8,12 @@ https://stackoverflow.com/questions/40976536/how-to-define-typescript-map-of-key
 http://2ality.com/2015/01/es6-maps-sets.html
 */
 
+function replacer(key,value)
+{
+    if (key=="cronJob") return undefined;
+    else return value;
+}
+
 export class BotsRouter {
 
   router: Router;
@@ -55,11 +61,13 @@ public deleteOne = (req: Request, res: Response, next: NextFunction) => {
 //       res.send(this.mapToJson(this.bots));
 //   }
 
+
+
   public mapToJson(map): string {
     if(typeof map == 'undefined') {
         return '???'
     }
-    return JSON.stringify([...map]);
+    return JSON.stringify([...map], replacer);
   }
 }
 
