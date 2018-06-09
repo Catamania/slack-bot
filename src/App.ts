@@ -44,14 +44,4 @@ class App {
 
 }
 
-let app: App = new App();
-let port = 3002;
-app.express.listen(port, (err) => {
-  if (err) {
-      return console.log(err);
-  }
-
-  return console.log(`server is listening on ${port}`);
-});
-
 export default new App().express;
