@@ -30,7 +30,7 @@ export class Bot {
 
   public start() {
     let bot = new SlackBot({
-      token: "", // Add a bot https://my.slack.com/services/new/bot and put the token
+      token: "xoxb-242501122774-pST8vYidhJaHsrdeU46Ne80d", // Add a bot https://my.slack.com/services/new/bot and put the token
       name: "bot MACD"
     });
     let krakenRequest = new krakenPublicRequest.KrakenPublicRequest();
