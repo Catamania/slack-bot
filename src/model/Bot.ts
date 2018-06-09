@@ -39,13 +39,15 @@ export class Bot {
       isBullish: false,
       acceleration: 0
     };
-    let urlGraph = "http://localhost:8181/macd/?grain=" + this.intervalle;
+    let urlGraph = "http://78.212.193.11:8182/macd/?grain=" + this.intervalle;
 
     console.log("urlGraph " + urlGraph);
 
     console.log("postMessageToUser bot started " + this.slackUser + " " + this.intervalle);
 
-    bot.postMessageToUser(this.slackUser, "bot started", Bot.params);
+    //bot.postMessageToUser(this.slackUser, "bot started", Bot.params);
+    //bot.postEphemeral(this.slackUser, "bot started", Bot.params);
+    bot.postMessageToChannel("smart-dev-niort-1-bot", "bot started", Bot.params);
 
 // https://stackoverflow.com/questions/40353503/how-to-access-this-inside-a-callback-function-in-typescript
 
@@ -66,7 +68,8 @@ export class Bot {
               "}";
             message = message + " (" + urlGraph + ")";
             // this.bot.postMessageToChannel("random", message, Bot.params);
-            bot.postMessageToUser(this.slackUser, message, Bot.params);
+            //bot.postMessageToUser(this.slackUser, message, Bot.params);
+            bot.postMessageToChannel("smart-dev-niort-1-bot", message, Bot.params);
           } else if (botState.isBullish !== jsonBody["isBullish"]) {
             message =
               message +
@@ -78,7 +81,8 @@ export class Bot {
               "}";
             message = message + " (" + urlGraph + ")";
             // this.bot.postMessageToChannel("random", message, Bot.params);
-            bot.postMessageToUser(this.slackUser, message, Bot.params);
+            // bot.postMessageToUser(this.slackUser, message, Bot.params);
+            bot.postMessageToChannel("smart-dev-niort-1-bot", message, Bot.params);
           }
           botState.isBullish = jsonBody["isBullish"];
           botState.acceleration = jsonBody["acceleration"];

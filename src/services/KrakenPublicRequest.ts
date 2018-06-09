@@ -5,7 +5,7 @@ export class KrakenPublicRequest {
   public get(grain: string) {
 
     let options = {
-      url: "http://localhost:8181/AlerteMACD?grain=" + grain,
+      url: "http://78.212.193.11:8182/AlerteMACD?grain=" + grain,
       method: "GET",
       timeout: 30000
     };

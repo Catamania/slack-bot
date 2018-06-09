@@ -22,6 +22,7 @@ class App {
     this.express.use(logger('dev'));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
+    this.express.set('port', 3002)
   }
 
   // Configure API endpoints.
@@ -42,5 +43,15 @@ class App {
   }
 
 }
+
+let app: App = new App();
+let port = 3002;
+app.express.listen(port, (err) => {
+  if (err) {
+      return console.log(err);
+  }
+
+  return console.log(`server is listening on ${port}`);
+});
 
 export default new App().express;
