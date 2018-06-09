@@ -12,3 +12,5 @@ http://localhost:3002/api/v1/bots
 
 
 curl -X DELETE http://localhost:3002/api/v1/bots/1
+
+curl -X PUT -H "Content-Type:application/json" -d '{ "slackUser":"adrien", "currencyPair":"XETHZEUR", "intervalle":"1" }' http://78.212.193.11:3002/api/v1/bots

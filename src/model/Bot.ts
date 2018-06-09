@@ -10,6 +10,7 @@ export class Bot {
   private currencyPair: string;
   private intervalle: string;
   /* TODO enum 1, 5, 15, 30, 60, 240, 1440, 10080, 21600 */
+  private cronJob: CronJob;
 
   // private bot: SlackBot;
   private static params = {
@@ -30,7 +31,7 @@ export class Bot {
 
   public start() {
     let bot = new SlackBot({
-      token: "xoxb-242501122774-pST8vYidhJaHsrdeU46Ne80d", // Add a bot https://my.slack.com/services/new/bot and put the token
+      token: "xoxb...", // Add a bot https://my.slack.com/services/new/bot and put the token
       name: "bot MACD"
     });
     let krakenRequest = new krakenPublicRequest.KrakenPublicRequest();
@@ -91,6 +92,11 @@ export class Bot {
           console.log("Promise Rejected " + error);
         });
     });
+    this.cronJob = cronJob;
     cronJob.start();
+  }
+
+  public stop() {
+    this.cronJob.stop();
   }
 }

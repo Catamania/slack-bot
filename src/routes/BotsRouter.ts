@@ -44,7 +44,7 @@ export class BotsRouter {
 public deleteOne = (req: Request, res: Response, next: NextFunction) => {
   let id = parseInt(req.params.id);
   if(this.bots.has(id)) {
-    this.bots.delete(id);
+    this.bots.get(id).stop();
   }
   res.send("deleted " + id);
 }
