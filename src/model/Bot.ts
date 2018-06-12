@@ -1,9 +1,12 @@
 // import { SlackBot } from "slackbots"; TODO types
 let SlackBot = require("slackbots");
 import { CronJob } from "cron";
+import  { Talk } from "../services/Talk";
 import krakenPublicRequest = require("../services/KrakenPublicRequest");
 
 export class Bot {
+  static readonly botName = 'Catia';
+
   private static globalId: number = 0;
   private _id: number;
   private slackUser: string;
@@ -31,8 +34,8 @@ export class Bot {
 
   public start() {
     let bot = new SlackBot({
-      token: "xoxb...", // Add a bot https://my.slack.com/services/new/bot and put the token
-      name: "bot MACD"
+      token: "xoxb-xxxx", // Add a bot https://my.slack.com/services/new/bot and put the token
+      name: Bot.botName
     });
     let krakenRequest = new krakenPublicRequest.KrakenPublicRequest();
     let botState = {
@@ -41,6 +44,7 @@ export class Bot {
       acceleration: 0
     };
     let urlGraph = "http://78.212.193.11:8182/macd/?grain=" + this.intervalle;
+    let talker = new Talk();
 
     console.log("urlGraph " + urlGraph);
 
@@ -48,7 +52,7 @@ export class Bot {
 
     //bot.postMessageToUser(this.slackUser, "bot started", Bot.params);
     //bot.postEphemeral(this.slackUser, "bot started", Bot.params);
-    bot.postMessageToChannel("smart-dev-niort-1-bot", "bot started", Bot.params);
+    bot.postMessageToChannel("smart-dev-niort-1-bot", Talk.generateHelloMessage(Bot.botName), Bot.params);
 
 // https://stackoverflow.com/questions/40353503/how-to-access-this-inside-a-callback-function-in-typescript
 
@@ -72,14 +76,7 @@ export class Bot {
             //bot.postMessageToUser(this.slackUser, message, Bot.params);
             bot.postMessageToChannel("smart-dev-niort-1-bot", message, Bot.params);
           } else if (botState.isBullish !== jsonBody["isBullish"]) {
-            message =
-              message +
-              "MACD SIGNAL ! " +
-              "{bullish : " +
-              jsonBody["isBullish"] +
-              ", acceleration : " +
-              jsonBody["acceleration"] +
-              "}";
+            message = talker.generateMessage(jsonBody["isBullish"],jsonBody["acceleration"]);
             message = message + " (" + urlGraph + ")";
             // this.bot.postMessageToChannel("random", message, Bot.params);
             // bot.postMessageToUser(this.slackUser, message, Bot.params);
