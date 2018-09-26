@@ -17,7 +17,36 @@ export class Bot {
 
   // private bot: SlackBot;
   private static params = {
-    icon_emoji: ":robot_face:"
+      attachments: [
+          {
+              "icon_url" : "https://www.bruno-faugeroux.fr/images/catia.png",
+              "fallback": "TODO",
+              "color": "#3AA3E3",
+              "actions": [
+                  {
+                      "text": "Acheter 1 eth",
+                      "type": "button",
+                      "url": "https://www.cat-amania.com",
+                      "confirm": {
+                          "title": "Confirmer l'achat",
+                          "text": "Êtes-vous vraiment sur de vouloir acheter 1 eth ?",
+                          "ok_text": "J'en suis sur",
+                          "dismiss_text": "Annuler"
+                      }
+                  },
+                  {
+                      "text": "Ventre 1 eth",
+                      "type": "button",
+                      "url": "https://www.google.fr",
+                      "confirm": {
+                          "title": "Confirmer la vente",
+                          "text": "Êtes-vous vraiment sur de vouloir vendre 1 eth ?",
+                          "ok_text": "J'en suis sur",
+                          "dismiss_text": "Annuler"
+                      }
+                  }
+              ]
+          }]
   };
 
   constructor(slackUser: string, currencyPair: string, intervalle: string) {
@@ -45,6 +74,7 @@ export class Bot {
     };
     let urlGraph = "http://78.212.193.11:8182/macd/?grain=" + this.intervalle;
     let talker = new Talk();
+    let icon_url = 'icon_url = "https://www.bruno-faugeroux.fr/images/catia.png"';
 
     console.log("urlGraph " + urlGraph);
 
@@ -52,7 +82,7 @@ export class Bot {
 
     //bot.postMessageToUser(this.slackUser, "bot started", Bot.params);
     //bot.postEphemeral(this.slackUser, "bot started", Bot.params);
-    bot.postMessageToChannel("smart-dev-niort-1-bot", Talk.generateHelloMessage(Bot.botName), Bot.params);
+    bot.postMessageToChannel("smart-dev-niort-1-bot", Talk.generateHelloMessage(Bot.botName),icon_url);
 
 // https://stackoverflow.com/questions/40353503/how-to-access-this-inside-a-callback-function-in-typescript
 
@@ -71,15 +101,15 @@ export class Bot {
               ", acceleration: " +
               jsonBody["acceleration"] +
               "}";
-            message = message + " (" + urlGraph + ")";
-            // this.bot.postMessageToChannel("random", message, Bot.params);
-            //bot.postMessageToUser(this.slackUser, message, Bot.params);
-            bot.postMessageToChannel("smart-dev-niort-1-bot", message, Bot.params);
+            //message = message + " (" + urlGraph + ")";
+            //bot.postMessageToChannel("smart-dev-niort-1-bot", message, Bot.params);
           } else if (botState.isBullish !== jsonBody["isBullish"]) {
             message = talker.generateMessage(jsonBody["isBullish"],jsonBody["acceleration"]);
-            message = message + " (" + urlGraph + ")";
+            message = message + urlGraph;
             // this.bot.postMessageToChannel("random", message, Bot.params);
             // bot.postMessageToUser(this.slackUser, message, Bot.params);
+
+
             bot.postMessageToChannel("smart-dev-niort-1-bot", message, Bot.params);
           }
           botState.isBullish = jsonBody["isBullish"];

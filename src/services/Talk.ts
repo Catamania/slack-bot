@@ -21,7 +21,7 @@ export class Talk {
 
         let messages = isBullish ? this.bullishMessages : this.bearishMessages;
 
-        return messages[Math.floor(Math.random() * (messages.length))] + " (" + acceleration + ")";
+        return messages[Math.floor(Math.random() * (messages.length))]+ " . Le détail de mon analyse est disponible ici : ";
     }
 
     /**
