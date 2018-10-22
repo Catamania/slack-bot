@@ -1,3 +1,4 @@
+require('dotenv').config();
 import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';

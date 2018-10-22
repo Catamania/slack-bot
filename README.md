@@ -2,6 +2,10 @@ npm install
 
 gulp
 
+
+cp .env.exemple .env
+> Renseigner le token slack dans le fichier .env
+
 npm start
 
 curl -X PUT -H "Content-Type:application/json" -d '{ "slackUser":"adrien", "currencyPair":"XETHZEUR", "intervalle":"1" }' http://localhost:3002/api/v1/bots

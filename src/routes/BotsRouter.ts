@@ -41,17 +41,19 @@ export class BotsRouter {
     let newOne = new Bot(jsonObj['slackUser'], jsonObj['currencyPair'], jsonObj['intervalle']);
 
     this.bots.set(newOne.id, newOne);
-
+    res.setHeader('Content-Type', 'application/json');
     res.send(req.body);
   }
 
   public getAll = (req: Request, res: Response, next: NextFunction) => {
     console.log("hello");
     console.log(this.bots);
+    res.setHeader('Content-Type', 'application/json');
     res.send(this.mapToJson(this.bots));
 }
 
 public getOne = (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Content-Type', 'application/json');
   let id = parseInt(req.params.id);
   if (this.bots.has(id)) {
     res.send(JSON.stringify(this.bots.get(id), replacer));
@@ -62,6 +64,7 @@ public getOne = (req: Request, res: Response, next: NextFunction) => {
 }
 
 public getLastAlert = (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Content-Type', 'application/json');
   let id = parseInt(req.params.id);
   if (this.bots.has(id)) {
     let bot = this.bots.get(id);
@@ -78,16 +81,18 @@ public deleteOne = (req: Request, res: Response, next: NextFunction) => {
   if(this.bots.has(id)) {
     this.bots.get(id).stop();
   }
+  res.setHeader('Content-Type', 'application/json');
   res.send("deleted " + id);
 }
 
 
-  public mapToJson(map): string {
-    if(typeof map == 'undefined') {
-        return '???'
-    }
-    return JSON.stringify([...map], replacer);
+public mapToJson(map): string {
+  if(typeof map == 'undefined') {
+      return '???'
   }
+  return JSON.stringify([...map], replacer);
+}
+
 }
 
 const botsRoutes = new BotsRouter();
