@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { Bot } from "../model/Bot";
+import { Alert } from '../model/Alert';
 
 /*
 https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types
@@ -18,13 +19,16 @@ export class BotsRouter {
 
   router: Router;
   bots: Map<number, Bot>;
-
+  
   constructor() {
     this.router = Router();
     this.router.put("/", this.putOne);
     this.router.get('/', this.getAll);
+    this.router.get('/:id', this.getOne);
     this.router.delete('/:id', this.deleteOne);
+    this.router.get('/alert/:id', this.getLastAlert);
     this.bots = new Map<number, Bot>();
+    
     console.log(this.bots);
   }
 
@@ -47,6 +51,28 @@ export class BotsRouter {
     res.send(this.mapToJson(this.bots));
 }
 
+public getOne = (req: Request, res: Response, next: NextFunction) => {
+  let id = parseInt(req.params.id);
+  if (this.bots.has(id)) {
+    res.send(JSON.stringify(this.bots.get(id), replacer));
+  }
+  else {
+    res.send(JSON.stringify("id introuvable"));
+  }
+}
+
+public getLastAlert = (req: Request, res: Response, next: NextFunction) => {
+  let id = parseInt(req.params.id);
+  if (this.bots.has(id)) {
+    let bot = this.bots.get(id);
+    let alert = bot.getLastAlert();
+
+    console.log(alert);
+    res.send(JSON.stringify(alert));
+  }
+}
+
+
 public deleteOne = (req: Request, res: Response, next: NextFunction) => {
   let id = parseInt(req.params.id);
   if(this.bots.has(id)) {
@@ -54,13 +80,6 @@ public deleteOne = (req: Request, res: Response, next: NextFunction) => {
   }
   res.send("deleted " + id);
 }
-
-//   public getAll(req: Request, res: Response, next: NextFunction) {
-//       console.log("hello");
-//       console.log(this.bots);
-//       res.send(this.mapToJson(this.bots));
-//   }
-
 
 
   public mapToJson(map): string {

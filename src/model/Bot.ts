@@ -2,6 +2,7 @@
 let SlackBot = require("slackbots");
 import { CronJob } from "cron";
 import  { Talk } from "../services/Talk";
+import { Alert } from './Alert';
 import krakenPublicRequest = require("../services/KrakenPublicRequest");
 
 export class Bot {
@@ -12,21 +13,32 @@ export class Bot {
   private slackUser: string;
   private currencyPair: string;
   private intervalle: string;
+  private lastAlert: Alert;
+  
   /* TODO enum 1, 5, 15, 30, 60, 240, 1440, 10080, 21600 */
   private cronJob: CronJob;
 
-  // private bot: SlackBot;
+  public getLastAlert() {
+    return this.lastAlert;
+  }
 
+  // private bot: SlackBot;
   constructor(slackUser: string, currencyPair: string, intervalle: string) {
     this._id = Bot.globalId++;
     this.slackUser = slackUser;
     this.currencyPair = currencyPair;
     this.intervalle = intervalle;
-    this.start();
+    this.lastAlert = null;
+
+       this.start();
   }
 
   get id(): number {
     return this._id;
+  }
+
+  private saveAlert(isBullish: boolean, acceleration: number) {
+    this.lastAlert = new Alert(isBullish, acceleration);
   }
 
   public start() {
@@ -118,6 +130,7 @@ export class Bot {
             // bot.postMessageToUser(this.slackUser, message, Bot.params);
 
             bot.postMessageToChannel("smart-dev-niort-1-bot", message, params);
+            this.saveAlert(jsonBody["isBullish"], jsonBody['acceleration']);
           }
           botState.isBullish = jsonBody["isBullish"];
           botState.acceleration = jsonBody["acceleration"];
