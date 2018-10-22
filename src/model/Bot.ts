@@ -31,7 +31,7 @@ export class Bot {
 
   public start() {
     let bot = new SlackBot({
-      token: "xoxb-4769124056-379431650867-FPIsyZfuDHtu8G8LiKw7gXMI", // Add a bot https://my.slack.com/services/new/bot and put the token
+      token: "xoxb-xxxx", // Add a bot https://my.slack.com/services/new/bot and put the token
       name: Bot.botName
     });
     let krakenRequest = new krakenPublicRequest.KrakenPublicRequest();
@@ -42,12 +42,11 @@ export class Bot {
     };
     let urlGraph = "http://78.212.193.11:8182/macd/?grain=" + this.intervalle;
     let talker = new Talk();
-    let icon_url = 'icon_url = "https://www.bruno-faugeroux.fr/images/catia.png"';
 
     let params = {
+          icon_url : "https://www.bruno-faugeroux.fr/images/catia-transparant.png",
           attachments: [
               {
-                  "icon_url" : "https://www.bruno-faugeroux.fr/images/catia.png",
                   "fallback": "TODO",
                   "color": "#3AA3E3",
                   "actions": [
@@ -82,13 +81,17 @@ export class Bot {
               }]
       };
 
+      let params_light = {
+          icon_url : "https://www.bruno-faugeroux.fr/images/catia-transparant.png",
+      };
+
     console.log("urlGraph " + urlGraph);
 
     console.log("postMessageToUser bot started " + this.slackUser + " " + this.intervalle);
 
     //bot.postMessageToUser(this.slackUser, "bot started", Bot.params);
     //bot.postEphemeral(this.slackUser, "bot started", Bot.params);
-    bot.postMessageToChannel("smart-dev-niort-1-bot", Talk.generateHelloMessage(Bot.botName),icon_url);
+    bot.postMessageToChannel("smart-dev-niort-1-bot", Talk.generateHelloMessage(Bot.botName),params_light);
 
 // https://stackoverflow.com/questions/40353503/how-to-access-this-inside-a-callback-function-in-typescript
 
@@ -113,7 +116,6 @@ export class Bot {
             message = talker.generateMessage(jsonBody["isBullish"],jsonBody["acceleration"]);
             // this.bot.postMessageToChannel("random", message, Bot.params);
             // bot.postMessageToUser(this.slackUser, message, Bot.params);
-
 
             bot.postMessageToChannel("smart-dev-niort-1-bot", message, params);
           }
