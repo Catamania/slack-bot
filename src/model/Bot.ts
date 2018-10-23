@@ -1,5 +1,8 @@
 // import { SlackBot } from "slackbots"; TODO types
 let SlackBot = require("slackbots");
+import * as moment from 'moment';
+moment.locale('fr');
+
 import { CronJob } from "cron";
 import  { Talk } from "../services/Talk";
 import { Alert } from './Alert';
@@ -34,7 +37,7 @@ export class Bot {
     this.intervalle = intervalle;
     this.lastAlert = null;
 
-       this.start();
+    this.start();
   }
 
   get id(): number {
@@ -45,10 +48,19 @@ export class Bot {
     this.lastAlert = new Alert(isBullish, acceleration);
   }
 
+  private displayIntervalle() {
+    let duration = moment.duration(parseInt(this.intervalle), 'minutes');
+    return duration.humanize();
+  }
+
+
   public start() {
+    const botFullName = `${Bot.botName} [Paire : ${this.currencyPair} | Grain : ${this.displayIntervalle()}]`;
+    console.log('bot FullName is : ' + botFullName);
+    
     let bot = new SlackBot({
       token: process.env.SLACK_BOT_TOKEN, // Add a bot https://my.slack.com/services/new/bot and put the token
-      name: Bot.botName
+      name: botFullName
     });
     let krakenRequest = new krakenPublicRequest.KrakenPublicRequest();
     let botState = {
