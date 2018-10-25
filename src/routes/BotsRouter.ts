@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { Bot } from "../model/Bot";
-import { Alert } from '../model/Alert';
 
 /*
 https://stackoverflow.com/questions/37233735/typescript-interfaces-vs-types
@@ -80,6 +79,7 @@ public deleteOne = (req: Request, res: Response, next: NextFunction) => {
   let id = parseInt(req.params.id);
   if(this.bots.has(id)) {
     this.bots.get(id).stop();
+    this.bots.delete(id);
   }
   res.setHeader('Content-Type', 'application/json');
   res.send("deleted " + id);
