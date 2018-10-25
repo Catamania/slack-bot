@@ -82,7 +82,7 @@ public deleteOne = (req: Request, res: Response, next: NextFunction) => {
     this.bots.delete(id);
   }
   res.setHeader('Content-Type', 'application/json');
-  res.send("deleted " + id);
+  res.send(JSON.stringify("deleted " + id));
 }
 
 
