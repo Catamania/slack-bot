@@ -41,7 +41,7 @@ export class BotsRouter {
 
     this.bots.set(newOne.id, newOne);
     res.setHeader('Content-Type', 'application/json');
-    res.send(req.body);
+    res.send(JSON.stringify(newOne, replacer));
   }
 
   public getAll = (req: Request, res: Response, next: NextFunction) => {
