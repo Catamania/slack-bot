@@ -10,7 +10,7 @@ export class KrakenPublicRequest {
       timeout: 30000
     };
 
-    console.log("options.url " + options.url)
+    // console.log("options.url " + options.url)
 
     return new Promise(function(onSuccess, onError) {
       request.get(options, function(error, response, body) {

@@ -90,6 +90,7 @@ export class Bot {
         .get(this.intervalle)
         .then((jsonBody) => {
           let message = "*[MACD " + this.intervalle + " minutes]* ";
+          let logMessage = `[id ${this._id}][MACD ${this.intervalle}] : Bullish ${jsonBody["isBullish"]} | Acceleration ${jsonBody["acceleration"]}`;
           if (botState.firstCall) {
             botState.firstCall = false;
             message =
@@ -102,11 +103,13 @@ export class Bot {
               jsonBody["acceleration"] +
               "}";
           } else if (botState.isBullish !== jsonBody["isBullish"]) {
+            logMessage += " >>> Changement d'etat ! Notification <<<";
             message = talker.generateMessage(jsonBody["isBullish"],jsonBody["acceleration"]);
             
             this.saveAlert(jsonBody["isBullish"], jsonBody['acceleration']);
             bot.postMessageToChannel("smart-dev-niort-1-bot", message, messageBuilder.buildParams(jsonBody["isBullish"]));
           }
+          console.log(logMessage);
           botState.isBullish = jsonBody["isBullish"];
           botState.acceleration = jsonBody["acceleration"];
         })
