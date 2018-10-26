@@ -90,7 +90,7 @@ export class Bot {
                           }
                       },
                       {
-                          "text": "Ventre 1 eth",
+                          "text": "Vendre 1 eth",
                           "type": "button",
                           "url": "https://www.google.fr",
                           "confirm": {
