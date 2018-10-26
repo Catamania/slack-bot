@@ -6,6 +6,7 @@ moment.locale('fr');
 import { CronJob } from "cron";
 import  { Talk } from "../services/Talk";
 import { Alert } from './Alert';
+import { MessageBuilder } from '../services/MessageBuilder';
 import krakenPublicRequest = require("../services/KrakenPublicRequest");
 
 const token = process.env.SLACK_BOT_TOKEN || null;
@@ -68,52 +69,16 @@ export class Bot {
       isBullish: false,
       acceleration: 0
     };
-    let urlGraph = "http://78.212.193.11:8182/macd/?grain=" + this.intervalle;
-    let talker = new Talk();
+    
+    let messageBuilder = new MessageBuilder(this.intervalle);
 
-    let params = {
-          icon_url : "https://www.bruno-faugeroux.fr/images/catia-transparant.png",
-          attachments: [
-              {
-                  "fallback": "TODO",
-                  "color": "#3AA3E3",
-                  "actions": [
-                      {
-                          "text": "Acheter 1 eth",
-                          "type": "button",
-                          "url": "https://www.cat-amania.com",
-                          "confirm": {
-                              "title": "Confirmer l'achat",
-                              "text": "Êtes-vous vraiment sûr de vouloir acheter 1 eth ?",
-                              "ok_text": "J'en suis sûr",
-                              "dismiss_text": "Annuler"
-                          }
-                      },
-                      {
-                          "text": "Vendre 1 eth",
-                          "type": "button",
-                          "url": "https://www.google.fr",
-                          "confirm": {
-                              "title": "Confirmer la vente",
-                              "text": "Êtes-vous vraiment sûr de vouloir vendre 1 eth ?",
-                              "ok_text": "J'en suis sûr",
-                              "dismiss_text": "Annuler"
-                          }
-                      },
-                      {
-                          "text": "Afficher l'analyse",
-                          "type": "button",
-                          "url": urlGraph,
-                      }
-                  ]
-              }]
-      };
+    let talker = new Talk();
 
       let params_light = {
           icon_url : "https://www.bruno-faugeroux.fr/images/catia-transparant.png",
       };
 
-    console.log("urlGraph " + urlGraph);
+    console.log("urlGraph " + messageBuilder.getGraphUrl());
     console.log("postMessageToUser bot started " + this.slackUser + " " + this.intervalle);
 
     bot.postMessageToChannel("smart-dev-niort-1-bot", Talk.generateHelloMessage(Bot.botName),params_light);
@@ -138,9 +103,9 @@ export class Bot {
               "}";
           } else if (botState.isBullish !== jsonBody["isBullish"]) {
             message = talker.generateMessage(jsonBody["isBullish"],jsonBody["acceleration"]);
-
+            
             this.saveAlert(jsonBody["isBullish"], jsonBody['acceleration']);
-            bot.postMessageToChannel("smart-dev-niort-1-bot", message, params);
+            bot.postMessageToChannel("smart-dev-niort-1-bot", message, messageBuilder.buildParams(jsonBody["isBullish"]));
           }
           botState.isBullish = jsonBody["isBullish"];
           botState.acceleration = jsonBody["acceleration"];
