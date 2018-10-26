@@ -84,8 +84,8 @@ export class Bot {
                           "url": "https://www.cat-amania.com",
                           "confirm": {
                               "title": "Confirmer l'achat",
-                              "text": "Êtes-vous vraiment sur de vouloir acheter 1 eth ?",
-                              "ok_text": "J'en suis sur",
+                              "text": "Êtes-vous vraiment sûr de vouloir acheter 1 eth ?",
+                              "ok_text": "J'en suis sûr",
                               "dismiss_text": "Annuler"
                           }
                       },
@@ -95,8 +95,8 @@ export class Bot {
                           "url": "https://www.google.fr",
                           "confirm": {
                               "title": "Confirmer la vente",
-                              "text": "Êtes-vous vraiment sur de vouloir vendre 1 eth ?",
-                              "ok_text": "J'en suis sur",
+                              "text": "Êtes-vous vraiment sûr de vouloir vendre 1 eth ?",
+                              "ok_text": "J'en suis sûr",
                               "dismiss_text": "Annuler"
                           }
                       },
